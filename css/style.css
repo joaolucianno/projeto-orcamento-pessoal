@@ -1,0 +1,27 @@
+body, html{
+    height: 100%;
+    position: relative;
+}
+
+footer span{
+    display: block;
+    position: fixed;
+    bottom: 0px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #007bff;
+    width: 100%;
+    padding: 20px;
+    color: #fff;
+    text-align: center;
+    font-family: monospace;
+}
+
+#foot{
+    
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: unset;
+}
