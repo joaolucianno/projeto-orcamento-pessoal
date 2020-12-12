@@ -46,6 +46,8 @@
                 </div>
             </nav>
         </header>
+
+        <!-- Section -->
         <section>
             <div class="container">
                 <div class="row">
@@ -143,7 +145,7 @@
                     <!-- Btn search & + -->
                     <div class="col-md-2 d-flex justify-content-end">
                         <button class="btn btn-danger">
-                            <i class="fa fa-times"></i>
+                           <abbr title="Limpar filtros" style="cursor: pointer;"><i class="fa fa-times"></i></abbr>
                         </button>
                         <button class="btn bg-primary text-white ml-3">
                             <i class="fas fa-search"></i>
@@ -169,7 +171,27 @@
                 </div>
             </div>
         </section>
-        
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 id="exampleModalLabel"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div id="bodyModal" class="modal-body"></div>
+                <div class="modal-footer">
+                    <button type="button" id="btnSim" value="1" data-dismiss="modal"></button>
+                    <button type="button" id="btnNao" value="0" data-dismiss="modal"></button>
+                </div>
+            </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
         <footer>
             <div>
                 <span id="foot">Developed by &copy; JLDev - 2020</span>

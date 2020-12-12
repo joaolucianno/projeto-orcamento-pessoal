@@ -124,8 +124,20 @@ function mostrarDespesas(){
         btn.innerHTML='<i class="fa fa-times"></i>'
         btn.id=`btnRemove${id}`
         btn.onclick= function(){
-            db.remover(btn.id.replace('btnRemove', ''));
-            window.location.reload();
+            $('#exampleModal').modal('show');
+            document.getElementById('exampleModalLabel').className ='modal-title text-danger';
+            document.getElementById('exampleModalLabel').innerHTML ='Remover despesa';
+            document.getElementById('bodyModal').innerHTML ='Tem certeza que deseja remover esta despesa?';
+            document.getElementById('btnSim').className ='btn btn-danger';
+            document.getElementById('btnSim').innerHTML ='Sim';
+            document.getElementById('btnNao').className ='btn btn-danger';
+            document.getElementById('btnNao').innerHTML ='Não';
+            document.getElementById('btnSim').onclick = function(){
+                console.log('Sim');
+                db.remover(btn.id.replace('btnRemove', ''));
+                window.location.reload();
+            }
+            
         };
         linha.insertCell(4).appendChild(btn);
     });
