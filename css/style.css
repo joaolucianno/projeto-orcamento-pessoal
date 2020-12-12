@@ -1,12 +1,13 @@
 body, html{
     height: 100%;
     position: relative;
+    overflow-x: hidden;
 }
 
 footer span{
     display: block;
     text-align: center;
-    margin-top: 100px;
+    margin-top: 200px;
     padding: 30px;
     color: #000;
     
@@ -24,4 +25,108 @@ input::-webkit-inner-spin-button {
 
 #hFiltros{
     font-size: 1.5em;
+}
+
+/*Media Queries*/
+@media (max-width: 767.98px){
+    .tituloPrincipal{
+        font-size: 1.9em;
+    }
+    #hFiltros{
+        font-size: 1.3em;
+    }
+    #dia, #mes, #ano, #descricao, #valor{
+        margin-bottom: 8px;
+    }
+    #btnPlus{
+        margin-top: 20px;
+        width: 100%;
+    }
+    #btnRem{
+        
+    }
+    #btnSea{
+        width: 80%;
+    }
+    .table{
+        font-size: 1em;    
+    }
+    .btnFormat{
+        padding: 6px;
+    }
+    
+}
+
+@media (max-width: 575.98px){
+    .tituloPrincipal{
+        font-size: 1.9em;
+    }
+    #hFiltros{
+        font-size: 1.3em;
+    }
+    #dia, #mes, #ano, #descricao, #valor{
+        margin-bottom: 8px;
+    }
+    #btnPlus{
+        margin-top: 20px;
+        width: 100%;
+    }
+    .table{
+        font-size: 0.9em;
+        margin-left: 0;
+
+    }
+    .btnFormat{
+        padding: 4px;
+    }
+    #thDesc{
+        display: block;
+        align-self: center;
+    }
+    #thValor{
+        margin-left: 0;
+        margin-right: 0;
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .table td, .table th{
+        padding-left: 0;
+    }
+}
+
+@media (max-width: 399.98px){
+    .tituloPrincipal{
+        font-size: 1.9em;
+    }
+    #hFiltros{
+        font-size: 1.3em;
+    }
+    #dia, #mes, #ano, #descricao, #valor{
+        margin-bottom: 8px;
+    }
+    #btnPlus{
+        margin-top: 20px;
+        width: 100%;
+    }
+    .table{
+        font-size: 0.8em;
+        margin-left: 0;
+
+    }
+    .btnFormat{
+        padding: 2px;
+    }
+    #thDesc{
+        display: block;
+        align-self: center;
+    }
+    #thValor{
+        margin-left: 0;
+        margin-right: 0;
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .table td, .table th{
+        padding-left: 0;
+    }
 }

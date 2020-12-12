@@ -157,7 +157,7 @@ function mostrarDespesas(despesas = Array(), filtro = false){
         linha.insertCell(2).innerHTML = d.descricao;
         linha.insertCell(3).innerHTML = '€' + (d.valor).toFixed(2);
         let btn = document.createElement('button');
-        btn.className='btn btn-danger btn-sm d-flex align-self-center';
+        btn.className='btn btn-danger btn-sm d-flex align-self-center btnFormat';
         btn.innerHTML='<i class="fa fa-times"></i>'
         btn.id=`btnRemove${id}`
         btn.onclick= function(){
@@ -251,3 +251,13 @@ function ordenarValor(){
     mostrarDespesas(list);
     ordemValor++;
 };
+
+function tableRes(){
+    let widthSmall = screen.width;
+    console.log(widthSmall)
+    if(widthSmall <= 360){
+        document.getElementById('tableRes').className = 'table table-responsive';
+    } else{
+        document.getElementById('tableRes').className = 'table';
+    }
+}
