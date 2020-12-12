@@ -28,20 +28,16 @@ class DB{
         if(id === null){
             localStorage.setItem('id', 0);
         }
-        //console.log(id)
-    }
+    };
     //Methods
     proximoId(){
         let id = localStorage.getItem('id');
-        let proximoId = parseInt(id) + 1
-        localStorage.setItem('id', proximoId);
-        //console.log(proximoId);
+        return parseInt(id) + 1
     }
     
     gravar(d){
-        this.proximoId()
-        let id = localStorage.getItem('id')
-        //console.log(id);
+        let id = this.proximoId();
+        localStorage.setItem('id', this.proximoId());
         localStorage.setItem(id, JSON.stringify(d));
     }
     recuperarTodasDespesas(){
