@@ -39,12 +39,30 @@ class DB{
     }
     
     gravar(d){
-        let despesa = JSON.stringify(d);
         this.proximoId()
         let id = localStorage.getItem('id')
-        console.log(id);
-        localStorage.setItem(id, despesa);
+        //console.log(id);
+        localStorage.setItem(id, JSON.stringify(d));
     }
+    recuperarTodasDespesas(){
+        let despesas = Array();
+        let id = localStorage.getItem('id');
+        for(let i = 1; i <= id; i++){
+            let desp = JSON.parse(localStorage.getItem(i))
+            if(desp === null){
+                continue;
+            } else{
+                desp.id = i
+                despesas.push(desp)
+            }
+        }
+        console.log(despesas);
+        return despesas
+    };
+    remover(id){
+        localStorage.removeItem(id);
+        console.log(id);
+    };
 };
 //Instância de DB
 let db = new DB();
@@ -62,7 +80,7 @@ function cadastrarDespesa(){
 
     let despesa = new Despesa(dia, mes, ano, tipo, descricao, valor);
     if(despesa.validarDados()){
-        //db.gravar(despesa);
+        db.gravar(despesa);
         //alert('OK')
         //Mostrar Modal
         $('#exampleModal').modal('show');
@@ -89,4 +107,31 @@ function cadastrarDespesa(){
         //alert('ERRO')
     }
     console.log(despesa)
-}
+};
+
+
+
+function mostrarDespesas(){
+    let despesas = db.recuperarTodasDespesas();
+    //console.log(despesas);
+    let listaDespesas = document.getElementById('listaDespesas')
+    
+    despesas.forEach(function(d){
+        let id = d['id'];
+        let linha = listaDespesas.insertRow();
+        linha.insertCell(0).innerHTML = `${d.dia}/${d.mes}/${d.ano}`;
+        linha.insertCell(1).innerHTML = d.tipo;
+        linha.insertCell(2).innerHTML = d.descricao;
+        linha.insertCell(3).innerHTML = d.valor;
+        let btn = document.createElement('button');
+        btn.className='btn btn-danger btn-sm d-flex align-self-center';
+        btn.innerHTML='<i class="fa fa-times"></i>'
+        btn.id=`btnRemove${id}`
+        btn.onclick= function(){
+            db.remover(btn.id.replace('btnRemove', ''));
+            window.location.reload();
+        };
+        linha.insertCell(4).appendChild(btn);
+    });
+    
+};
