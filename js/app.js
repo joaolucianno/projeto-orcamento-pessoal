@@ -10,7 +10,6 @@ class Despesa{
         this.valor = valor;
     };
     //Methods
-    
     validarDados(){
         for (let i in this){
             if(this[i] == undefined || this[i] == null || this[i] == ''){
@@ -52,20 +51,32 @@ class DB{
                 despesas.push(desp)
             }
         }
-        console.log(despesas);
         return despesas
     };
+    pesquisar(df, filtro){
+        let despesasFiltradas = Array();
+        despesasFiltradas = this.recuperarTodasDespesas();
+
+        for (let i in df){
+            filtrar(i);
+        };
+
+        function filtrar(attr){
+            if(df[attr] != '0' && df[attr] != ''){
+                despesasFiltradas = despesasFiltradas.filter(f => f[attr] == df[attr]);
+            }
+        };
+        mostrarDespesas(despesasFiltradas, filtro);
+        ordenarFiltradas = despesasFiltradas;
+    }
     remover(id){
         localStorage.removeItem(id);
-        console.log(id);
     };
 };
 //Instância de DB
 let db = new DB();
 
-
 //Functions
-
 function cadastrarDespesa(){
     let dia = document.getElementById('dia').value;
     let mes = document.getElementById('mes').value;
@@ -73,11 +84,11 @@ function cadastrarDespesa(){
     let tipo = document.getElementById('tipo').value;
     let descricao = document.getElementById('descricao').value;
     let valor = document.getElementById('valor').value;
-
+    console.log(valor);
+    //
     let despesa = new Despesa(dia, mes, ano, tipo, descricao, valor);
     if(despesa.validarDados()){
         db.gravar(despesa);
-        //alert('OK')
         //Mostrar Modal
         $('#exampleModal').modal('show');
         document.getElementById('exampleModalLabel').className='modal-title text-success';
@@ -92,7 +103,6 @@ function cadastrarDespesa(){
         document.getElementById('tipo').value='0';
         document.getElementById('descricao').value='';
         document.getElementById('valor').value='';
-        
     } else{
         $('#exampleModal').modal('show');
         document.getElementById('exampleModalLabel').className='modal-title text-danger';
@@ -100,25 +110,52 @@ function cadastrarDespesa(){
         document.getElementById('bodyModal').innerHTML='Verifique se os campos foram preenchidos corretamente';
         document.getElementById('btnVoltar').className='btn btn-danger'
         document.getElementById('btnVoltar').innerHTML='Voltar e corrigir'
-        //alert('ERRO')
     }
-    console.log(despesa)
 };
 
+//Filtro
+let filtro = false;
 
+function limparFiltros(){
+    document.getElementById('dia').value='0';
+    document.getElementById('mes').value='0';
+    document.getElementById('ano').value='0';
+    document.getElementById('tipo').value='0';
+    document.getElementById('descricao').value='';
+    document.getElementById('valor').value='';
+};
 
-function mostrarDespesas(){
-    let despesas = db.recuperarTodasDespesas();
-    //console.log(despesas);
+function filtrar(){
+    let dia = document.getElementById('dia').value;
+    let mes = document.getElementById('mes').value;
+    let ano = document.getElementById('ano').value;
+    let tipo = document.getElementById('tipo').value;
+    let descricao = document.getElementById('descricao').value;
+    let valor = document.getElementById('valor').value;
+    //
+    let despesasFiltradas = new Despesa(dia, mes, ano, tipo, descricao, valor);
+    filtro = true;
+    db.pesquisar(despesasFiltradas, filtro);
+}
+
+//Mostrar Despesas
+function mostrarDespesas(despesas = Array(), filtro = false){
+    if(despesas.length == 0 && filtro == false){
+        despesas = db.recuperarTodasDespesas();
+    }
     let listaDespesas = document.getElementById('listaDespesas')
-    
+    listaDespesas.innerHTML= '';
+    //
+    let valorTotal = 0;
+    let mostrarTotal = false;
     despesas.forEach(function(d){
         let id = d['id'];
+        d.valor = parseFloat(d.valor)
         let linha = listaDespesas.insertRow();
         linha.insertCell(0).innerHTML = `${d.dia}/${d.mes}/${d.ano}`;
         linha.insertCell(1).innerHTML = d.tipo;
         linha.insertCell(2).innerHTML = d.descricao;
-        linha.insertCell(3).innerHTML = d.valor;
+        linha.insertCell(3).innerHTML = '€' + (d.valor).toFixed(2);
         let btn = document.createElement('button');
         btn.className='btn btn-danger btn-sm d-flex align-self-center';
         btn.innerHTML='<i class="fa fa-times"></i>'
@@ -133,13 +170,84 @@ function mostrarDespesas(){
             document.getElementById('btnNao').className ='btn btn-danger';
             document.getElementById('btnNao').innerHTML ='Não';
             document.getElementById('btnSim').onclick = function(){
-                console.log('Sim');
                 db.remover(btn.id.replace('btnRemove', ''));
                 window.location.reload();
             }
-            
         };
         linha.insertCell(4).appendChild(btn);
+        valorTotal += parseFloat(d.valor);
+        mostrarTotal = true;
     });
+    if(mostrarTotal == true){
+        let total = listaDespesas.insertRow();
+        total.insertCell(0).innerHTML = '';
+        total.insertCell(1).innerHTML = '';
+        total.insertCell(2).innerHTML = `<br><b>Total</b>`;
+        total.insertCell(3).innerHTML = `<br>€${valorTotal.toFixed(2)}`;
+        total.insertCell(4).innerHTML = '';
+        
+    }
     
+    
+};
+
+//Sort
+let ordenarFiltradas; //Array com despesas filtradas. Deve ser inserido nas funções abaixo caso (filtro == true)
+let ordemData = 0; //Verifica se vai ordenar do mais recente para mais antigo
+let ordemTipo = 0;
+let ordemValor = 0;
+
+function ordenarData(){
+    let list;
+    if(filtro == false){
+        list = db.recuperarTodasDespesas();
+    } else{
+        list = ordenarFiltradas;
+    }
+    //
+    if(ordemData % 2 == 0){ 
+        list.sort((a, b) => a.dia > b.dia ? -1 : 1);
+        list.sort((a, b) => a.mes > b.mes ? -1 : 1);
+        list.sort((a, b) => a.ano > b.ano ? -1 : 1);
+    } else{
+        list.sort((a, b) => a.dia < b.dia ? -1 : 1);
+        list.sort((a, b) => a.mes < b.mes ? -1 : 1);
+        list.sort((a, b) => a.ano < b.ano ? -1 : 1);
+    }
+    mostrarDespesas(list);
+    ordemData++;
+};
+
+function ordenarTipo(){
+    let list;
+    if(filtro == false){
+        list = db.recuperarTodasDespesas();
+    } else{
+        list = ordenarFiltradas;
+    }
+    //
+    if(ordemTipo % 2 == 0){
+        list.sort((a, b) => a.tipo < b.tipo ? -1 : 1);
+    } else{
+        list.sort((a, b) => a.tipo > b.tipo ? -1 : 1);
+    }
+    mostrarDespesas(list)
+    ordemTipo++;
+};
+
+function ordenarValor(){
+    let list;
+    if(filtro == false){
+        list = db.recuperarTodasDespesas();
+    } else{
+        list = ordenarFiltradas;
+    }
+    //
+    if(ordemValor % 2 == 0){
+        list.sort((a, b) => a.valor - b.valor);
+    } else{
+        list.sort((a, b) => b.valor - a.valor);
+    }
+    mostrarDespesas(list);
+    ordemValor++;
 };

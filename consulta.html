@@ -55,6 +55,11 @@
                         <h1 class="display-4">Consulta de despesas</h1>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col">
+                        <h2 id="hFiltros">Filtros</h2>
+                    </div>
+                </div>
                 <div class="row mb-2">
                     <!-- Dia -->
                     <div class="col-md-2">
@@ -144,10 +149,10 @@
                     </div>
                     <!-- Btn search & + -->
                     <div class="col-md-2 d-flex justify-content-end">
-                        <button class="btn btn-danger">
-                           <abbr title="Limpar filtros" style="cursor: pointer;"><i class="fa fa-times"></i></abbr>
-                        </button>
-                        <button class="btn bg-primary text-white ml-3">
+                        <abbr title="Limpar filtros" style="cursor: pointer;"><button onclick="limparFiltros()" class="btn btn-danger">
+                           <i class="fa fa-times"></i>
+                        </button></abbr>
+                        <button onclick="filtrar()" class="btn bg-primary text-white ml-3">
                             <i class="fas fa-search"></i>
                         </button>
                     </div>
@@ -158,10 +163,10 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>Data</th>
-                                    <th>Tipo</th>
+                                    <th>Data <button onclick="ordenarData()" class="btn btn-sm d-flex align-items-center float-right"><i class="fas fa-sort"></i></button></th>
+                                    <th>Tipo <button onclick="ordenarTipo()" class="btn btn-sm d-flex align-items-center float-right"><i class="fas fa-sort"></i></button></th>
                                     <th>Desc.</th>
-                                    <th>Valor</th>
+                                    <th>Valor <button onclick="ordenarValor()" class="btn btn-sm d-flex align-items-center float-right"><i class="fas fa-sort"></i></button></th>
                                     <th></th>
                                 </tr>
                             </thead>
