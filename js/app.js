@@ -97,10 +97,10 @@ function cadastrarDespesa(){
         document.getElementById('btnVoltar').className='btn btn-success';
         document.getElementById('btnVoltar').innerHTML='Voltar';
         //Zerar campos após salvar despesa
-        document.getElementById('dia').value='0';
-        document.getElementById('mes').value='0';
-        document.getElementById('ano').value='0';
-        document.getElementById('tipo').value='0';
+        document.getElementById('dia').value='';
+        document.getElementById('mes').value='';
+        document.getElementById('ano').value='';
+        document.getElementById('tipo').value='';
         document.getElementById('descricao').value='';
         document.getElementById('valor').value='';
     } else{
